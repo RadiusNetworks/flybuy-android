@@ -4,15 +4,15 @@ Orders are managed via a `OrdersOperation`
 
 Each operation can be retrieved using the following:
 
-```kotlin
-    val ordersOperation = FlyBuy.getInstance(context).orders.getOrdersOperation()
+```
+    val ordersOperation = FlyBuy.orders.getOrdersOperation()
 ```
 
 ## Observe the orders
 
 Returns a `LiveData` stream of orders
 
-```kotlin
+```
     openOrders = getOrdersOperation.orders.open()
     closedOrders = getOrdersOperation.orders.closed()
 ```
@@ -21,7 +21,7 @@ Returns a `LiveData` stream of orders
 
 Syncs the latest orders with the server and returns a `LiveData<WorkStatus>` stream for observing status
 
-```kotlin
+```
     fun sync(): LiveData<WorkStatus>? {
         return ordersOperation.sync()
     }
@@ -31,7 +31,7 @@ Syncs the latest orders with the server and returns a `LiveData<WorkStatus>` str
 
 First, check that an order exists for a given redeem code
 
-```kotlin
+```
     fun checkCode(): LiveData<WorkStatus>? {
         return redeemCode.value?.let {
             ordersOperation.findOrder(it)
@@ -41,7 +41,7 @@ First, check that an order exists for a given redeem code
 
 Claim the order for the customer for the given redeem code
 
-```kotlin
+```
     fun redeemOrder(): LiveData<WorkStatus>? {
         return listOf(redeemCode.value, customerInfo.value).any {it == null}.let {
             null
@@ -55,7 +55,7 @@ Claim the order for the customer for the given redeem code
 
 Create an order by passing order identifiers to the `create` method. There are numerous attributes available, but the only mandatory ones are the `siteID` and `partnerIdentifier`. Returns a `LiveData<WorkStatus>` stream for observing status
 
-```kotlin
+```
     val info = CreateOrderInfo(
       siteID = 101,
       partnerIdentifier = "1234123",
@@ -86,7 +86,7 @@ Create an order by passing order identifiers to the `create` method. There are n
 
 Orders are always updated with an Order Event. Returns a `LiveData<WorkStatus>` stream for observing status
 
-```kotlin
+```
     fun create(): LiveData<WorkStatus> {
         return ordersOperation.event(order, CustomerState.waiting)
     }

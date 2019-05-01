@@ -4,7 +4,7 @@ FlyBuy can leverage Google's Firebase Cloud Messaging (FCM) to get updates about
 
 To pass the message to FlyBuy, override the `FirebaseMessagingService.onMessageReceived` method as follows.
 
-```kotlin
+```
 override fun onMessageReceived(remoteMessage: RemoteMessage?) {
     // result is a LiveData<WorkStatus> object that can be observed
     val result = FlyBuy.onMessageReceived(remoteMessage)
@@ -15,15 +15,15 @@ You do not need to filter or check the body of the `remoteMessage` data, FlyBuy 
 
 Since a device's push token can change, the FlyBuy SDK needs to be informed when that occurs. To do so, override the `FirebaseMessagingingService.onNewToken()` method as follows.
 
-```kotlin
+```
     override fun onNewToken(token: String?) {
-        FlyBuy.getInstance(this).onNewPushToken(token)
+        FlyBuy.onNewPushToken(token)
     }
 ```
 
 The SDK should also be updated with the push token when the app starts. The following code snippet provides an example function that can be called from `onCreate()` in your activity.
 
-```kotlin
+```
     private fun updatePushToken() {
         FirebaseInstanceId.getInstance().instanceId
             .addOnCompleteListener(OnCompleteListener { task ->

@@ -4,15 +4,15 @@ Customers are managed via a `CustomerOperation`
 
 A customer operation can be retrieved using the following.
 
-```kotlin
-    val customerOperation = FlyBuy.getInstance(context).customer.getCustomerOperation()
+```
+    val customerOperation = FlyBuy.customer.getCustomerOperation()
 ```
 
 ## Observe the customer
 
 Returns a `LiveData` stream of the current customer to observe. The customer received will either be the logged in user or `null`
 
-```kotlin
+```
     val customer: Customer = customerOperation.customers
 ```
 
@@ -20,7 +20,7 @@ Returns a `LiveData` stream of the current customer to observe. The customer rec
 
 Create a customer account using information from the user. Consent should be collected from the user (e.g. checkboxes)
 
-```kotlin
+```
     val customerInfo = CustomerInfo (
                            name = "Marty McFly",
                            carType = "DeLorean",
@@ -41,7 +41,7 @@ Create a customer account using information from the user. Consent should be col
 
 Sign the user in using existing credentials
 
-```kotlin
+```
     val loginInfo = LoginInfo(
                     email = "test@example.com",
                     password = "password"
@@ -56,7 +56,7 @@ Sign the user in using existing credentials
 
 Signs out the current customer.
 
-```kotlin
+```
     fun signOut(): LiveData<WorkStatus> {
         return customerOperation.logout()
     }
@@ -66,7 +66,7 @@ Signs out the current customer.
 
 Update customer info for the logged in user
 
-```kotlin
+```
     val customerInfo = CustomerInfo (
                            name = "Marty McFly",
                            carType = "DeLorean",

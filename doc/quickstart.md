@@ -10,15 +10,22 @@ This guide will walk through the basic setup for integrating the FlyBuy SDK into
 
 ## SDK Installation
 
-Currently FlyBuy can be installed manually by adding the `flybuy.aar` library to the `libs` folder of your app.
+Currently FlyBuy can be installed via gradle or manually.
 
-Maven support will be coming soon. [Let us know](mailto:support@radiusnetworks.com) if you have a specific need.
+### Gradle Install
+
+Include the following in your `build.gradle` dependencies
+
+```groovy
+    implementation "com.radiusnetworks.flybuy:sdk:<version>"
+    implementation "com.radiusnetworks.flybuy:api:<version>"
+```
 
 ### Manual Install
 
 Download the [latest SDK release](https://github.com/RadiusNetworks/flybuy-android/releases/latest).
 
-Copy the `flybuy.jar` file into the `libs` folder of your app module
+Copy the `sdk-release.aar` and `api-release.aar` files into the `libs` folder of your app module
 
 Make sure your `build.gradle` has the following:
 
@@ -34,6 +41,42 @@ dependencies {
 
 Finally, resync your project with Gradle Files
 
+## Configure FlyBuy
+
+FlyBuy needs to be setup and configured at application launch. However, it does not run in the background or use device resources until there is an active order.
+
+The easiest way to configure FlyBuy in your app is to extend the `FlyBuyApplication` and call the `FlyBuy.configure(...)` method from `onCreate()` to setup the API token as follows:
+
+```
+class MyApplication : FlyBuyApplication() {
+
+    override fun onCreate() {
+        super.onCreate()
+        FlyBuy.configure(this, appToken)
+    }
+    
+}
+```
+
+Alternatively, you may add the following to your activity lifecycle methods>
+
+```
+class MyActivity : Activity() {
+
+    override fun onStart() {
+        super.onStart()
+        FlyBuy.onActivityStart(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        FlyBuy.onActivityStop(this)
+    }
+}
+```
+
+If you don't already have an API token please contact your Account Executive or drop an email to [support@radiusnetworks.com](mailto:support@radiusnetworks.com) with the Project URL you want to enable, and we will set you up.
+
 ## Setting Permissions
 
 In order to use the SDK your app will need to request the proper permissions.
@@ -46,37 +89,23 @@ FlyBuy uses mobile sensor data to identify the location of a customer.  The FlyB
 Add the following to `AndroidManifest.xml`:
 
 ```xml
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 ```
 
 If you are targeting API 23 or higher, the app must request the permission at runtime.
 
-Refer to [https://developer.android.com/training/permissions/requesting] on the Android Developer site for details on requesting permissions and best practices.
+Refer to [https://developer.android.com/training/permissions/requesting] on the Android Developer site for details on requesting permissions and best practices. The suggested rationale for the permission is "To accurately locate you for order delivery"
 
-The suggested rationale for the permission is "To accurately locate you for order delivery"
 
-## Import the library
+**IMPORTANT:** Whenever, the location permission changes (accepted or declined), make sure to call:
 
-In any files that need to reference the FlyBuy library, you will need to import:
-
-```kotlin
-import com.radiusnetworks.flybuy.sdk.FlyBuy
+```
+FlyBuy.onLocationPermissionChanged()
 ```
 
-## Configure FlyBuy at launch
+This ensures that the FlyBuy SDK is aware of the permission change so the user location is updated appropriately.
 
-FlyBuy needs to be setup and configured at application launch. However, it does not run in the background or use device resources until there is an active order.
-
-To configure everything properly pass your API token to the `configure` method on `FlyBuy` in the `onCreate()` method of your application:
-
-```kotlin
-    override fun onCreate() {
-        super.onCreate()
-        FlyBuy.getInstance(this).configure(appToken)
-    }
-```
-
-If you don't already have an API token please contact your Account Executive or drop an email to [support@radiusnetworks.com](mailto:support@radiusnetworks.com) with the Project URL you want to enable, and we will set you up.
 
 ## Typical Usage Pattern
 
@@ -84,7 +113,7 @@ The FlyBuy SDK leverages several architecture components from [Android Jetpack](
 
 ### Fragment Example
 
-```kotlin
+```
 class OrdersListFragment : Fragment() {
 
     // ViewModel for Orders List
@@ -151,7 +180,7 @@ class OrdersListFragment : Fragment() {
 
 ### ViewModel Example
 
-```kotlin
+```
 class OrdersListViewModel(val ordersOperation: OrdersOperation) : BaseIrisViewModel() {
 
     // Callback to notify the Fragment when user interactions occur
