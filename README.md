@@ -4,6 +4,10 @@ The FlyBuy cloud service and mobile SDK from [Radius Networks][1] enables
 developers to add FlyBuy functionatlity directly into their app for a full
 white label implmentation of the service.
 
+## Install
+
+See the [quick start guide](doc/quickstart.md) for details.
+
 ## Issues
 
 For general service questions and help consult the Radius Networks [support knowledge base][2].
