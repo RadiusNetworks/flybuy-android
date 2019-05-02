@@ -1,3 +1,5 @@
+[ ![Download](https://api.bintray.com/packages/radiusnetworks/flybuy-sdk/com.radiusnetworks.flybuy/images/download.svg) ](https://bintray.com/radiusnetworks/flybuy-sdk/com.radiusnetworks.flybuy/_latestVersion)
+
 ![FlyBuy SDK for Android](readme.png)
 
 The FlyBuy cloud service and mobile SDK from [Radius Networks][1] enables
