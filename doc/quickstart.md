@@ -65,13 +65,14 @@ class MyActivity : Activity() {
 
     override fun onStart() {
         super.onStart()
-        FlyBuy.onActivityStart(this)
+        FlyBuy.onActivityStarted()
     }
-
+    
     override fun onStop() {
         super.onStop()
-        FlyBuy.onActivityStop(this)
+        FlyBuy.onActivityStopped()
     }
+
 }
 ```
 

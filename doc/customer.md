@@ -33,7 +33,32 @@ Create a customer account using information from the user. Consent should be col
                             )
     
     fun createProfile(): LiveData<WorkStatus> {
-        return customerOperation.create(customerInfo.value!!, customerConsent)
+        return customerOperation.create(customerInfo, customerConsent)
+    }
+```
+
+## Sign Up a Customer
+
+Create a customer account with email and password using information from the user. Consent should be collected from the user (e.g. checkboxes)
+
+```
+    val loginInfo = LoginInfo (
+                            email = "test@example.com",
+                            password = "password"
+                            }
+    val customerInfo = CustomerInfo (
+                            name = "Marty McFly",
+                            carType = "DeLorean",
+                            carColor = "Silver",
+                            licensePlate = "OUTATIME"
+                            )
+    val customerConsent = CustomerConsent(
+                            termsOfService = true,
+                            ageVerification = true
+                            )
+    
+    fun signUp(): LiveData<WorkStatus> {
+        return customerOperation.signUp(customerInfo, loginInfo, customerConsent)
     }
 ```
 
