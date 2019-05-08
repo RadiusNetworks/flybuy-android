@@ -62,6 +62,21 @@ Create a customer account with email and password using information from the use
     }
 ```
 
+## "Upgrade" a Customer
+
+Link an email and password with the current anonymous logged in user 
+
+```
+    val loginInfo = LoginInfo (
+                            email = "test@example.com",
+                            password = "password"
+                            )
+    
+    fun upgrade(): LiveData<WorkStatus> {
+        return customerOperation.upgrade(customerInfo)
+    }
+```
+
 ## Sign In
 
 Sign the user in using existing credentials
