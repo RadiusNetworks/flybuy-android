@@ -40,3 +40,18 @@ The SDK should also be updated with the push token when the app starts. The foll
             })
     }
 ```
+
+## Setting the Service Notification Title and Content
+
+When there is an open order, the FlyBuy SDK runs a foreground service that sends location updates to the API. Foreground services on Android require a notification while it is running. The default title and content of this notification is:
+
+**Title**: FlyBuy Order in Progress
+
+**Content**: We'll let the merchant know when you arrive.
+
+To override the default values, set the following strings in the app's string resources.
+
+```
+    <string name="notif_flybuy_order_in_progress_title">FlyBuy Order in Progress</string>
+    <string name="notif_flybuy_order_in_progress_content">We\'ll let the merchant know when you arrive.</string>
+```
