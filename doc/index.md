@@ -3,9 +3,16 @@
 The FlyBuy cloud service and mobile SDK from [Radius
 Networks][1] enables developers to add FlyBuy functionality directly into their app for a full white label implementation of the service.
 
-## Install
+## Getting Started
 
 See the [quick start guide](quickstart.md) for details.
+
+More information can be found about:
+
+- [Customers](customer.md)
+- [Orders](orders.md)
+- [Notifications](notifications.md)
+- [App Links](app_links.md)
 
 ## Issues
 
@@ -20,10 +27,10 @@ sample demonstrating the issue, and device OS information.
 
 ## License
 
-Copyright (c) 2019 by Radius Networks. http://www.radiusnetworks.com. All Rights Reserved. Usage of this library implies agreement to abide by the [license
-terms](https://github.com/RadiusNetworks/flybuy-ios/blob/master/LICENSE) and Radius Networks [terms of service][4].
+Copyright (c) 2019 by Radius Networks. https://www.radiusnetworks.com. All Rights Reserved. Usage of this library implies agreement to abide by the [license
+terms](https://github.com/RadiusNetworks/flybuy-android/blob/master/LICENSE) and Radius Networks [terms of service][4].
 
-[1]: http://www.radiusnetworks.com/
+[1]: https://www.radiusnetworks.com/
 [2]: https://radiusnetworks.zendesk.com/
 [3]: https://github.com/RadiusNetworks/flybuy-android/issues/new
-[4]: http://www.radiusnetworks.com/terms_of_service.html
+[4]: https://www.radiusnetworks.com/terms-of-service
