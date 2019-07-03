@@ -1,26 +1,11 @@
 # Customers
 
-Customers are managed via a `CustomerOperation`
-
-A customer operation can be retrieved using the following.
-
-```
-    val customerOperation = FlyBuy.customer.getCustomerOperation()
-```
-
-## Observe the customer
-
-Returns a `LiveData` stream of the current customer to observe. The customer received will either be the logged in user or `null`
-
-```
-    val customer: Customer = customerOperation.customers
-```
-
 ## Create a Customer
 
-Create a customer account using information from the user. Consent should be collected from the user (e.g. checkboxes)
+Create a customer account using information from the user. Consent should be collected from the user (e.g. checkboxes).
 
-```
+```kotlin
+fun createCustomer() {
     val customerInfo = CustomerInfo (
                            name = "Marty McFly",
                            carType = "DeLorean",
@@ -32,20 +17,22 @@ Create a customer account using information from the user. Consent should be col
                             ageVerification = true
                             )
     
-    fun createProfile(): LiveData<WorkStatus> {
-        return customerOperation.create(customerInfo, customerConsent)
+    FlyBuy.customer.create(customerInfo, customerConsent) { customer, sdkError ->
+        // Handle customer or deal with error
     }
+}
 ```
 
-## Sign Up a Customer
+## Create a Customer with Login
 
-Create a customer account with email and password using information from the user. Consent should be collected from the user (e.g. checkboxes)
+Create a customer account with email and password using information from the user. Consent should be collected from the user (e.g. checkboxes).
 
-```
+```kotlin
+fun createCustomerWithLogin() {
     val loginInfo = LoginInfo (
                             email = "test@example.com",
                             password = "password"
-                            }
+                            )
     val customerInfo = CustomerInfo (
                             name = "Marty McFly",
                             carType = "DeLorean",
@@ -57,56 +44,64 @@ Create a customer account with email and password using information from the use
                             ageVerification = true
                             )
     
-    fun signUp(): LiveData<WorkStatus> {
-        return customerOperation.signUp(customerInfo, loginInfo, customerConsent)
+    FlyBuy.customer.createWithLogin(customerInfo, loginInfo, customerConsent) { customer , sdkError ->
+        // Handle customer or deal with error
     }
+}
 ```
 
-## "Upgrade" a Customer
+## Sign Up a Customer
 
-Link an email and password with the current anonymous logged in user 
+Link an email and password with the current anonymous logged in user. 
 
-```
+```kotlin
+fun signUp() {
     val loginInfo = LoginInfo (
                             email = "test@example.com",
                             password = "password"
                             )
     
-    fun upgrade(): LiveData<WorkStatus> {
-        return customerOperation.upgrade(customerInfo)
+    FlyBuy.customer.signUp(loginInfo) { customer, sdkError ->
+        // Handle customer or deal with error
     }
+}
 ```
 
 ## Sign In
 
 Sign the user in using existing credentials
 
-```
+```kotlin
+fun login() {
     val loginInfo = LoginInfo(
                     email = "test@example.com",
                     password = "password"
                     )
 
-    fun login(loginInfo: LoginInfo): LiveData<WorkStatus> {
-        return customerOperation.login(loginInfo)
+    FlyBuy.customer.login(loginInfo) { customer, sdkError ->
+        // Handle customer or deal with error
     }
+}
 ```
 
 ## Sign out the current Customer
 
 Signs out the current customer.
 
-```
-    fun signOut(): LiveData<WorkStatus> {
-        return customerOperation.logout()
+```kotlin
+fun signOut() {
+    FlyBuy.customer.signOut { sdkError ->
+        // Handle error
     }
+}
 ```
 
 ## Update a Customer
 
 Update customer info for the logged in user
 
-```
+```kotlin
+fun updateCustomer() {
     val customerInfo = CustomerInfo (
                            name = "Marty McFly",
                            carType = "DeLorean",
@@ -114,9 +109,18 @@ Update customer info for the logged in user
                            licensePlate = "OUTATIME"
                            )
     
-    fun update(customerInfo: CustomerInfo): LiveData<WorkStatus> {
-        return customerOperation.updateCustomer(customerInfo)
+    FlyBuy.customer.update(customerInfo) { customer, sdkError ->
+        // Handle customer or deal with error
     }
+}
+```
+
+## Get the current Customer
+
+Returns an instance of the current customer. This may not be accessed directly from the main thread.
+
+```kotlin
+FlyBuy.customer.current
 ```
 
 

@@ -1,95 +1,60 @@
 # Orders
 
-Orders are managed via a `OrdersOperation`
+## Fetch Orders
 
-Each operation can be retrieved using the following:
-
-```
-    val ordersOperation = FlyBuy.orders.getOrdersOperation()
-```
-
-## Observe the orders
-
-Returns a `LiveData` stream of orders
+Fetch the latest orders with the server
 
 ```
-    openOrders = getOrdersOperation.orders.open()
-    closedOrders = getOrdersOperation.orders.closed()
-```
-
-## Syncing Orders
-
-Syncs the latest orders with the server and returns a `LiveData<WorkStatus>` stream for observing status
-
-```
-    fun sync(): LiveData<WorkStatus>? {
-        return ordersOperation.sync()
+fun fetchOrders() {
+    FlyBuy.orders.fetch { orders, sdkError ->
+        // Handle orders or deal with error
     }
+}
 ```
 
-## Redeem Order
+## Claim Order
 
-First, check that an order exists for a given redeem code
+An order which is created in the FlyBuy service can be "claimed" by the SDK in order to associate it with the current customer.
 
-```
-    fun checkCode(): LiveData<WorkStatus>? {
-        return redeemCode.value?.let {
-            ordersOperation.findOrder(it)
-        }
+To get information about an unclaimed order, the app can call `fetch(redemptionCode, callback)`
+
+
+```kotlin
+fun fetchOrder() {
+    FlyBuy.orders.fetch(redemptionCode) { order, sdkError ->
+        // update order claim view with order details here
     }
+}
 ```
 
-Claim the order for the customer for the given redeem code
+To claim the order for the current customer, the app should call the `claim` method:
 
-```
-    fun redeemOrder(): LiveData<WorkStatus>? {
-        return listOf(redeemCode.value, customerInfo.value).any {it == null}.let {
-            null
-        } ?: run {
-            ordersOperation.claimOrder(redeemCode.value!!, customerInfo.value!!)
-        }
+```kotlin
+fun claimOrder() {
+    val customerInfo = CustomerInfo (
+                           name = "Marty McFly",
+                           carType = "DeLorean",
+                           carColor = "Silver",
+                           licensePlate = "OUTATIME"
+                           )
+    FlyBuy.orders.claim(redemptionCode, customerInfo) { order, sdkError ->
+        // if sdkError == null, order has been claimed
     }
+}
 ```
 
-## Create Order
-
-Create an order by passing order identifiers to the `create` method. There are numerous attributes available, but the only mandatory ones are the `siteID` and `partnerIdentifier`. Returns a `LiveData<WorkStatus>` stream for observing status
-
-```
-    val info = CreateOrderInfo(
-      siteID = 101,
-      partnerIdentifier = "1234123",
-      customerCarColor = "#FF9900",
-      customerCarType = "Silver Sedan",
-      customerLicensePlate = "XYZ-456",
-      customerName = customerName
-    )
-
-    fun create(): LiveData<WorkStatus> {
-        return ordersOperation.findOrder(info)
-    }
-```
-
-#### Order Info attributes
-
-| Attribute              | Description                                     |
-| ---------------------- | ----------------------------------------------- |
-| `siteID`               | The FlyBuy Site Identifier                      |
-| `partnerIdentifier`    | Internal customer or order identifier.          |
-| `customerCarColor`     | Color of the customer's vehicle                 |
-| `customerCarType`      | Make and model of the customer's vehicle        |
-| `customerLicensePlate` | License plate of the customer's vehicle         |
-| `customerName`         | Customer's name                                 |
-| `pushToken`            | The token used for push messages (or sent to the webhook) |
+After an order is claimed, the app may want to call `FlyBuy.orders.fetch()` to update the list of orders. The newly claimed order should now appear in the list of open orders which is available via `FlyBuy.orders.open`.
 
 ## Updating Orders
 
-Orders are always updated with an Order Event. Returns a `LiveData<WorkStatus>` stream for observing status
+Orders are always updated with an Order Event. 
 
-```
-    fun create(): LiveData<WorkStatus> {
-        return ordersOperation.event(order, CustomerState.waiting)
+```kotlin
+fun updateOrder() {
+    FlyBuy.orders.event(order, CustomerState.WAITING) { order, sdkError ->
+        // if sdkError == null, order has been updated
     }
+}
 ```
 
 #### Order Event attributes
@@ -103,10 +68,19 @@ Orders are always updated with an Order Event. Returns a `LiveData<WorkStatus>` 
 
 | Value       | Description                                                         |
 | ----------- | ------------------------------------------------------------------- |
-| `created`   | Order has been created                                              |
-| `enRoute`   | Order tracking is started the customer is on their way              |
-| `nearby`    | The customer is close to the site                                   |
-| `arrived`   | The customer has arrived on premises                                |
-| `waiting`   | The customer is in a pickup area or manually said they were waiting |
-| `completed` | The order is complete                                               |
+| `CREATED`   | Order has been created                                              |
+| `EN_ROUTE`  | Order tracking is started the customer is on their way              |
+| `NEARBY`    | The customer is close to the site                                   |
+| `ARRIVED`   | The customer has arrived on premises                                |
+| `WAITING`   | The customer is in a pickup area or manually said they were waiting |
+| `COMPLETED` | The order is complete                                               |
+
+## Observe the orders
+
+If you are using Android Jetpack, you can observe orders using `LiveData` streams of orders
+
+```kotlin
+    val openOrders = FlyBuy.orders.open
+    val closedOrders = FlyBuy.orders.closed
+```
 

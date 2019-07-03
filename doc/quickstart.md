@@ -41,6 +41,20 @@ dependencies {
 
 Finally, resync your project with Gradle Files
 
+### Google API Keys
+
+The SDK needs a Google API key for access to location APIs. If you have not already, go to your [Google API Console](https://console.developers.google.com/apis/credentials) and create an Android API key ([link for instructions](https://support.google.com/googleapi/answer/6158862?hl=en)). Then, enable the `Maps SDK for Android`.
+
+Add the following to your `AndroidManifest.xml` with the API key you generated above.
+
+```xml
+<application>
+    <meta-data
+        android:name="com.google.android.geo.API_KEY"
+        android:value="<INSERT_API_KEY>"/>
+</application>
+```
+
 ## Configure FlyBuy
 
 FlyBuy needs to be setup and configured at application launch. However, it does not run in the background or use device resources until there is an active order.
