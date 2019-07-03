@@ -75,6 +75,31 @@ fun updateOrder() {
 | `WAITING`   | The customer is in a pickup area or manually said they were waiting |
 | `COMPLETED` | The order is complete                                               |
 
+
+## Get Orders
+
+Returns the cached list of orders for the current user. This may not be accessed directly from the main thread.
+
+```kotlin
+FlyBuy.orders.all
+```
+
+## Get Open Orders
+
+Returns the cached list of open orders for the current user. This may not be accessed directly from the main thread.
+
+```kotlin
+FlyBuy.orders.open
+```
+
+## Get Closed Orders
+
+Returns the cached list of closed orders for the current user. This may not be accessed directly from the main thread.
+
+```kotlin
+FlyBuy.orders.closed
+```
+
 ## Observe the orders
 
 If you are using Android Jetpack, you can observe orders using `LiveData` streams of orders
