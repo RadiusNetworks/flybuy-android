@@ -78,7 +78,7 @@ fun updateOrder() {
 
 ## Get Orders
 
-Returns the cached list of orders for the current user. This may not be accessed directly from the main thread.
+Returns the cached list of orders for the current user. 
 
 ```kotlin
 FlyBuy.orders.all
@@ -86,7 +86,7 @@ FlyBuy.orders.all
 
 ## Get Open Orders
 
-Returns the cached list of open orders for the current user. This may not be accessed directly from the main thread.
+Returns the cached list of open orders for the current user. 
 
 ```kotlin
 FlyBuy.orders.open
@@ -94,7 +94,7 @@ FlyBuy.orders.open
 
 ## Get Closed Orders
 
-Returns the cached list of closed orders for the current user. This may not be accessed directly from the main thread.
+Returns the cached list of closed orders for the current user. 
 
 ```kotlin
 FlyBuy.orders.closed

@@ -69,7 +69,7 @@ fun signUp() {
 
 ## Sign In
 
-Sign the user in using existing credentials
+Sign in the user in using existing credentials
 
 ```kotlin
 fun login() {
@@ -79,6 +79,18 @@ fun login() {
                     )
 
     FlyBuy.customer.login(loginInfo) { customer, sdkError ->
+        // Handle customer or deal with error
+    }
+}
+```
+
+## Sign In with Token
+
+Sign in the user with a previously obtained customer API token
+
+```kotlin
+fun loginWithToken() {
+    FlyBuy.customer.loginWithToken("token") { customer, sdkError ->
         // Handle customer or deal with error
     }
 }
