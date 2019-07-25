@@ -1,111 +1,119 @@
 # Orders
 
-## Fetch Orders
+Examples are in Kotlin.
 
-Fetch the latest orders with the server
+- [Fetch Claimed Orders](#fetch-claimed-orders)
+- [Fetch Unclaimed Orders](#fetch-unclaimed-orders)
+- [Observe Orders](#observe-orders)
+- [Claim Orders](#claim-orders)
+- [Create Order](#create-order)
+- [Update Orders](#update-orders)
 
-```
-fun fetchOrders() {
-    FlyBuy.orders.fetch { orders, sdkError ->
-        // Handle orders or deal with error
-    }
+## <span id="fetch-claimed-orders">Fetch Claimed Orders</span>
+
+Fetch the latest claimed orders with the server. An order is claimed if it is associated with the current customer.
+
+```kotlin
+FlyBuy.orders.fetch { orders, sdkError ->
+    // Handle orders or deal with error
 }
 ```
 
-## Claim Order
+Return the cached list of orders for the current user.
 
-An order which is created in the FlyBuy service can be "claimed" by the SDK in order to associate it with the current customer.
-
-To get information about an unclaimed order, the app can call `fetch(redemptionCode, callback)`
-
-
-```kotlin
-fun fetchOrder() {
-    FlyBuy.orders.fetch(redemptionCode) { order, sdkError ->
-        // update order claim view with order details here
-    }
-}
 ```
-
-To claim the order for the current customer, the app should call the `claim` method:
-
-```kotlin
-fun claimOrder() {
-    val customerInfo = CustomerInfo (
-                           name = "Marty McFly",
-                           carType = "DeLorean",
-                           carColor = "Silver",
-                           licensePlate = "OUTATIME"
-                           )
-    FlyBuy.orders.claim(redemptionCode, customerInfo) { order, sdkError ->
-        // if sdkError == null, order has been claimed
-    }
-}
-```
-
-After an order is claimed, the app may want to call `FlyBuy.orders.fetch()` to update the list of orders. The newly claimed order should now appear in the list of open orders which is available via `FlyBuy.orders.open`.
-
-## Updating Orders
-
-Orders are always updated with an Order Event. 
-
-```kotlin
-fun updateOrder() {
-    FlyBuy.orders.event(order, CustomerState.WAITING) { order, sdkError ->
-        // if sdkError == null, order has been updated
-    }
-}
-```
-
-#### Order Event attributes
-
-| Attribute | Description            |
-| --------- | ---------------------- |
-| `order` | The order data |
-| `customerState` | Customer state ENUM value |
-
-#### Customer State values
-
-| Value       | Description                                                         |
-| ----------- | ------------------------------------------------------------------- |
-| `CREATED`   | Order has been created                                              |
-| `EN_ROUTE`  | Order tracking is started the customer is on their way              |
-| `NEARBY`    | The customer is close to the site                                   |
-| `ARRIVED`   | The customer has arrived on premises                                |
-| `WAITING`   | The customer is in a pickup area or manually said they were waiting |
-| `COMPLETED` | The order is complete                                               |
-
-
-## Get Orders
-
-Returns the cached list of orders for the current user. 
-
-```kotlin
 FlyBuy.orders.all
 ```
 
-## Get Open Orders
+Return the cached list of open orders for the current user.
 
-Returns the cached list of open orders for the current user. 
-
-```kotlin
+```
 FlyBuy.orders.open
 ```
 
-## Get Closed Orders
+Return the cached list of closed orders for the current user.
 
-Returns the cached list of closed orders for the current user. 
-
-```kotlin
+```
 FlyBuy.orders.closed
 ```
 
-## Observe the orders
-
-If you are using Android Jetpack, you can observe orders using `LiveData` streams of orders
+## <span id="fetch-unclaimed-orders">Fetch Unclaimed Orders</span>
 
 ```kotlin
-    val openOrders = FlyBuy.orders.open
-    val closedOrders = FlyBuy.orders.closed
+FlyBuy.orders.fetch(redemptionCode) { order, sdkError ->
+    // Update order claim view with order details here
+}
 ```
 
+## <span id="observe-orders">Observe Orders</span>
+
+Set up observers to get updates about orders.
+
+If you are using Android Jetpack, you can observe orders using `LiveData` streams of orders.
+
+```kotlin
+val openOrders = FlyBuy.orders.openLiveData
+val closedOrders = FlyBuy.orders.closedLiveData
+```
+
+## <span id="claim-orders">Claim Orders</span>
+
+To claim an order for the current customer, the app should call the `claim` method.
+
+```kotlin
+val customerInfo = CustomerInfo (
+    name = "Marty McFly",
+    carType = "DeLorean",
+    carColor = "Silver",
+    licensePlate = "OUTATIME"
+)
+FlyBuy.orders.claim(redemptionCode, customerInfo) { order, sdkError ->
+    // If sdkError == null, order has been claimed
+}
+```
+
+## <span id="create-order">Create Order</span>
+
+To create an order for the current customer, the app should call the `create` method. Note that a customer will be created if there isn't a customer currently logged in.
+
+```kotlin
+val createOrderInfo = CreateOrderInfo (
+    siteID = 1,
+    partnerIdentifier = "1234",
+    name = "Marty McFly",
+    carType = "DeLorean",
+    carColor = "Silver",
+    licensePlate = "OUTATIME"
+)
+FlyBuy.orders.create(createOrderInfo) { order, sdkError ->
+    // If sdkError == null, order has been created
+}
+```
+
+## <span id="update-orders">Update Orders</span>
+
+Orders are always updated with an order event. The order object cannot be updated directly.
+
+```kotlin
+FlyBuy.orders.event(order, CustomerState.WAITING) { order, sdkError ->
+    // If sdkError == null, order has been updated
+}
+```
+
+#### Order Event Attributes
+
+| Attribute       | Description               |
+|-----------------|---------------------------|
+| `order`         | Order data                |
+| `customerState` | Customer state ENUM value |
+
+#### Customer State ENUM Values
+
+| Value         | Description                                                             |
+|---------------|-------------------------------------------------------------------------|
+| `CREATED`     | Order has been created                                                  |
+| `EN_ROUTE`    | Order tracking has started and the customer is on their way             |
+| `NEARBY`      | Customer is close to the site                                           |
+| `ARRIVED`     | Customer has arrived on site                                            |
+| `WAITING`     | Customer is in a pickup area or has manually indicated they are waiting |
+| `COMPLETED`   | Order is complete                                                       |

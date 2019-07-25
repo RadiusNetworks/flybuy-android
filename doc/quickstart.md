@@ -14,7 +14,17 @@ Currently FlyBuy can be installed via gradle or manually.
 
 ### Gradle Install
 
-Include the following in your `build.gradle` dependencies
+Add the following to your root `build.gradle` 
+
+```groovy
+allprojects {
+    repositories {
+        maven { url 'https://dl.bintray.com/radiusnetworks/flybuy-sdk'}
+    }
+}
+```
+
+Include the following in your app `build.gradle` dependencies
 
 ```groovy
     implementation "com.radiusnetworks.flybuy:sdk:<version>"
@@ -33,7 +43,33 @@ Make sure your `build.gradle` has the following:
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 
-    // Other dependencies ...
+    implementation "com.botnerd.core:network:1.0.0"
+
+    // Support Library
+    implementation "androidx.legacy:legacy-support-v4:1.0.0"
+    // Android Architecture Components
+    implementation "androidx.room:room-common:2.1.0"
+    implementation "androidx.room:room-runtime:2.1.0"
+    implementation "androidx.room:room-rxjava2:2.1.0"
+    implementation "androidx.room:room-ktx:2.1.0"
+    kapt "androidx.room:room-compiler:2.1.0"
+    androidTestImplementation "androidx.room:room-testing:2.1.0"
+    // WorkManager
+    implementation "androidx.work:work-runtime-ktx:2.0.1"
+    // Firebase Cloud Messaging
+    implementation "com.google.firebase:firebase-messaging:18.0.0"
+    // Networking
+    implementation "com.squareup.retrofit2:retrofit:2.5.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.5.0"
+    implementation "com.squareup.retrofit2:converter-scalars:2.5.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.14.1"
+    // Threeten BP
+    api "org.threeten:threetenbp:1.3.8"
+    // Timber logging util
+    implementation "com.jakewharton.timber:timber:4.7.1"
+    // Google Play Location Services
+    implementation "com.google.android.gms:play-services-location:16.0.0"
+    // Test dependencies
 }
 ```
 
@@ -72,7 +108,18 @@ class MyApplication : FlyBuyApplication() {
 }
 ```
 
-Alternatively, you may add the following to your activity lifecycle methods>
+Alternatively, you may call `FlyBuy.configure()` in your application `onCreate()` method, and add the following to your activity lifecycle methods:
+
+```
+class MyApplication : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        FlyBuy.configure(this, appToken)
+    }
+    
+}
+```
 
 ```
 class MyActivity : Activity() {
@@ -99,14 +146,7 @@ In order to use the SDK your app will need to request the proper permissions.
 
 ### Ask for Location Services permissions
 
-FlyBuy uses mobile sensor data to identify the location of a customer.  The FlyBuy SDK requires FINE_LOCATION permission to properly function. 
-
-Add the following to `AndroidManifest.xml`:
-
-```xml
-<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-```
+FlyBuy uses mobile sensor data to identify the location of a customer.  The FlyBuy SDK requires FINE_LOCATION permission to properly function which will be merged with your app's Android Manifest. 
 
 If you are targeting API 23 or higher, the app must request the permission at runtime.
 
