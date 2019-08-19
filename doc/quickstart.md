@@ -43,10 +43,6 @@ Make sure your `build.gradle` has the following:
 dependencies {
     implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
 
-    implementation "com.botnerd.core:network:1.0.0"
-
-    // Support Library
-    implementation "androidx.legacy:legacy-support-v4:1.0.0"
     // Android Architecture Components
     implementation "androidx.room:room-common:2.1.0"
     implementation "androidx.room:room-runtime:2.1.0"
@@ -54,15 +50,11 @@ dependencies {
     implementation "androidx.room:room-ktx:2.1.0"
     kapt "androidx.room:room-compiler:2.1.0"
     androidTestImplementation "androidx.room:room-testing:2.1.0"
-    // WorkManager
-    implementation "androidx.work:work-runtime-ktx:2.0.1"
-    // Firebase Cloud Messaging
-    implementation "com.google.firebase:firebase-messaging:18.0.0"
     // Networking
     implementation "com.squareup.retrofit2:retrofit:2.5.0"
     implementation "com.squareup.retrofit2:converter-gson:2.5.0"
     implementation "com.squareup.retrofit2:converter-scalars:2.5.0"
-    implementation "com.squareup.okhttp3:logging-interceptor:3.14.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.12.3"
     // Threeten BP
     api "org.threeten:threetenbp:1.3.8"
     // Timber logging util

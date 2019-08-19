@@ -6,19 +6,36 @@ To pass the message to FlyBuy, override the `FirebaseMessagingService.onMessageR
 
 ```kotlin
 override fun onMessageReceived(remoteMessage: RemoteMessage?) {
-    FlyBuy.onMessageReceived(remoteMessage) { sdkError ->
+    FlyBuy.onMessageReceived(remoteMessage.data) { sdkError ->
         // Handle error
     }
 }
 ```
 
-You do not need to filter or check the body of the `remoteMessage` data, FlyBuy will inspect it and only process the notification if it is relevant to the SDK.
+You do not need to filter or check the data of the `remoteMessage` data, FlyBuy will inspect it and only process the notification if it is relevant to the SDK.
 
 Since a device's push token can change, the FlyBuy SDK needs to be informed when that occurs. To do so, override the `FirebaseMessagingingService.onNewToken()` method as follows.
 
 ```kotlin
 override fun onNewToken(token: String?) {
     FlyBuy.onNewPushToken(token)
+}
+```
+
+Also, make sure to refresh the token when the user logs in/out. Here's examples of doing that.
+
+```kotlin
+FlyBuy.customer.login(login.value ?: LoginInfo()) { customer, sdkError ->
+    handleSdkError(sdkError)
+    if (null != customer) {
+        FirebaseInstanceId.getInstance().deleteInstanceId()
+    }
+}
+
+
+FlyBuy.customer.signOut { sdkError ->
+    handleSdkError(sdkError)
+    FirebaseInstanceId.getInstance().deleteInstanceId()
 }
 ```
 
