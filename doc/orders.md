@@ -74,18 +74,21 @@ FlyBuy.orders.claim(redemptionCode, customerInfo) { order, sdkError ->
 
 ## <span id="create-order">Create Order</span>
 
-To create an order for the current customer, the app should call the `create` method. Note that a customer will be created if there isn't a customer currently logged in.
+To create an order for the current customer, the app should call the `create` method. 
 
 ```kotlin
-val createOrderInfo = CreateOrderInfo (
-    siteID = 1,
-    partnerIdentifier = "1234",
+val customerInfo = CustomerInfo (
     name = "Marty McFly",
     carType = "DeLorean",
     carColor = "Silver",
-    licensePlate = "OUTATIME"
+    licensePlate = "OUTATIME",
+    phone = "555-555-5555"
 )
-FlyBuy.orders.create(createOrderInfo) { order, sdkError ->
+FlyBuy.orders.create(
+            siteID = 1,
+            partnerIdentifier = "1234"
+            customerInfo,
+        ) { order, sdkError ->
     // If sdkError == null, order has been created
 }
 ```
@@ -95,7 +98,7 @@ FlyBuy.orders.create(createOrderInfo) { order, sdkError ->
 Orders are always updated with an order event. The order object cannot be updated directly.
 
 ```kotlin
-FlyBuy.orders.event(order, CustomerState.WAITING) { order, sdkError ->
+FlyBuy.orders.event(orderId, CustomerState.WAITING) { order, sdkError ->
     // If sdkError == null, order has been updated
 }
 ```
@@ -104,7 +107,7 @@ FlyBuy.orders.event(order, CustomerState.WAITING) { order, sdkError ->
 
 | Attribute       | Description               |
 |-----------------|---------------------------|
-| `order`         | Order data                |
+| `orderId`       | Order ID                  |
 | `customerState` | Customer state ENUM value |
 
 #### Customer State ENUM Values

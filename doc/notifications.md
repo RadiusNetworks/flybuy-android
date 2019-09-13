@@ -33,7 +33,7 @@ FlyBuy.customer.login(login.value ?: LoginInfo()) { customer, sdkError ->
 }
 
 
-FlyBuy.customer.signOut { sdkError ->
+FlyBuy.customer.logout { sdkError ->
     handleSdkError(sdkError)
     FirebaseInstanceId.getInstance().deleteInstanceId()
 }

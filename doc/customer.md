@@ -12,12 +12,9 @@ fun createCustomer() {
                            carColor = "Silver",
                            licensePlate = "OUTATIME"
                            )
-    val customerConsent = CustomerConsent(
-                            termsOfService = true,
-                            ageVerification = true
-                            )
     
-    FlyBuy.customer.create(customerInfo, customerConsent) { customer, sdkError ->
+    FlyBuy.customer.create(customerInfo, termOfService = true,
+            ageVerification = true) { customer, sdkError ->
         // Handle customer or deal with error
     }
 }
@@ -29,22 +26,15 @@ Create a customer account with email and password using information from the use
 
 ```kotlin
 fun createCustomerWithLogin() {
-    val loginInfo = LoginInfo (
-                            email = "test@example.com",
-                            password = "password"
-                            )
     val customerInfo = CustomerInfo (
                             name = "Marty McFly",
                             carType = "DeLorean",
                             carColor = "Silver",
                             licensePlate = "OUTATIME"
                             )
-    val customerConsent = CustomerConsent(
-                            termsOfService = true,
-                            ageVerification = true
-                            )
     
-    FlyBuy.customer.createWithLogin(customerInfo, loginInfo, customerConsent) { customer , sdkError ->
+    FlyBuy.customer.createWithLogin(customerInfo, email = "test@example.com", password = "passwordk",
+            termsOfService = true, ageVerification = true) { customer , sdkError ->
         // Handle customer or deal with error
     }
 }
@@ -56,37 +46,27 @@ Link an email and password with the current anonymous logged in user.
 
 ```kotlin
 fun signUp() {
-    val loginInfo = LoginInfo (
-                            email = "test@example.com",
-                            password = "password"
-                            )
-    
-    FlyBuy.customer.signUp(loginInfo) { customer, sdkError ->
+    FlyBuy.customer.signUp("test@example.com", "password") { customer, sdkError ->
         // Handle customer or deal with error
     }
 }
 ```
 
-## Sign In
+## Login
 
-Sign in the user in using existing credentials
+Login the user in using existing credentials
 
 ```kotlin
 fun login() {
-    val loginInfo = LoginInfo(
-                    email = "test@example.com",
-                    password = "password"
-                    )
-
-    FlyBuy.customer.login(loginInfo) { customer, sdkError ->
+    FlyBuy.customer.login("test@example.com", "password") { customer, sdkError ->
         // Handle customer or deal with error
     }
 }
 ```
 
-## Sign In with Token
+## Login with Token
 
-Sign in the user with a previously obtained customer API token
+Login the user with a previously obtained customer API token
 
 ```kotlin
 fun loginWithToken() {
@@ -96,13 +76,13 @@ fun loginWithToken() {
 }
 ```
 
-## Sign out the current Customer
+## Log out the current Customer
 
-Signs out the current customer.
+Logs out the current customer.
 
 ```kotlin
 fun signOut() {
-    FlyBuy.customer.signOut { sdkError ->
+    FlyBuy.customer.logout { sdkError ->
         // Handle error
     }
 }

@@ -153,6 +153,35 @@ FlyBuy.onLocationPermissionChanged()
 
 This ensures that the FlyBuy SDK is aware of the permission change so the user location is updated appropriately.
 
+#### Android 10 (API 29 and higher)
+
+As of Android 10 (API 29), location permissions have changed to allow
+users to select "when in use" as an option. If your app targets and API 
+before API 29, then some additional work is needed for your app to
+compile properly. Once you target API 29 or higher, this code needs to
+be removed.
+
+In your `AndroidManifest.xml`, add the following service:
+
+```xml
+    <service
+        android:name="com.radiusnetworks.flybuy.sdk.service.LocationService"
+        android:enabled="true"
+        android:exported="false"
+        tools:node="replace">
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+    </service>
+```
+
+Note: If this code is not removed when targeting API 29 or higher, your
+app will throw the following exception:
+
+```
+java.lang.RuntimeException: Unable to start service com.radiusnetworks.flybuy.sdk.service.LocationService ...
+java.lang.IllegalArgumentException: foregroundServiceType 0x00000008 is not a subset of foregroundServiceType attribute 0x00000000 in service element of manifest file
+```
 
 ## Typical Usage Pattern
 
@@ -271,4 +300,5 @@ Details on specific SDK functionality that can be used with your app.
 - [Handling Notifications](notifications.md)
 - [Managing Customers](customer.md)
 - [Managing Orders](orders.md)
+- [Getting Sites](sites.md)
 
