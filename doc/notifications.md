@@ -73,3 +73,10 @@ To override the default values, set the following strings in the app's string re
     <string name="notif_flybuy_order_in_progress_title">FlyBuy Order in Progress</string>
     <string name="notif_flybuy_order_in_progress_content">We\'ll let the merchant know when you arrive.</string>
 ```
+
+The service icon and push notification icon can also be updated from the default FlyBuy icon by overriding these two files respectively:
+
+```
+@drawable/ic_stat_location_service
+@drawable/ic_stat_default
+```

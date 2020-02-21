@@ -97,6 +97,8 @@ FlyBuy.orders.create(
 
 Orders are always updated with an order event. The order object cannot be updated directly.
 
+### Update customer state
+
 ```kotlin
 FlyBuy.orders.event(orderId, CustomerState.WAITING) { order, sdkError ->
     // If sdkError == null, order has been updated
@@ -120,3 +122,29 @@ FlyBuy.orders.event(orderId, CustomerState.WAITING) { order, sdkError ->
 | `ARRIVED`     | Customer has arrived on site                                            |
 | `WAITING`     | Customer is in a pickup area or has manually indicated they are waiting |
 | `COMPLETED`   | Order is complete                                                       |
+
+### Update order state
+
+```kotlin
+FlyBuy.orders.event(orderId, OrderState.CANCELLED) { order, sdkError ->
+    // If sdkError == null, order has been updated
+}
+```
+
+#### Order Event Attributes
+
+| Attribute       | Description               |
+|-----------------|---------------------------|
+| `orderId`       | Order ID                  |
+| `state`         | Order state ENUM value    |
+
+#### Customer State ENUM Values
+
+| Value         | Description                                                             |
+|---------------|-------------------------------------------------------------------------|
+| `CREATED`     | Order has been created                                                  |
+| `READY`       | Order is ready for customer to claim                                    |
+| `DELAYED`     | Order has been delayed by merchant after customer arrives               |
+| `CANCELLED`   | Merchant has cancelled order                                            |
+| `COMPLETED`   | Order is complete                                                       |
+| `GONE`        | Returned by API when order does not exist                               |
