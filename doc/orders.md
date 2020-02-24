@@ -138,7 +138,7 @@ FlyBuy.orders.event(orderId, OrderState.CANCELLED) { order, sdkError ->
 | `orderId`       | Order ID                  |
 | `state`         | Order state ENUM value    |
 
-#### Customer State ENUM Values
+#### Order State ENUM Values
 
 | Value         | Description                                                             |
 |---------------|-------------------------------------------------------------------------|
