@@ -301,4 +301,5 @@ Details on specific SDK functionality that can be used with your app.
 - [Managing Customers](customer.md)
 - [Managing Orders](orders.md)
 - [Getting Sites](sites.md)
+- [Data Models](data_models.md)
 

@@ -1,6 +1,6 @@
 # Orders
 
-Examples are in Kotlin.
+Examples are in Kotlin. Refer to [Data Models](data_models.md) for details on classes and objects used by the SDK.
 
 - [Fetch Claimed Orders](#fetch-claimed-orders)
 - [Fetch Unclaimed Orders](#fetch-unclaimed-orders)
@@ -8,8 +8,9 @@ Examples are in Kotlin.
 - [Claim Orders](#claim-orders)
 - [Create Order](#create-order)
 - [Update Orders](#update-orders)
-
-## <span id="fetch-claimed-orders">Fetch Claimed Orders</span>
+  - [Update customer state](#update-customer-state)
+  - [Update order state](#update-order-state)
+- [Customer Ratings](#customer-ratings)
 
 Fetch the latest claimed orders with the server. An order is claimed if it is associated with the current customer.
 
@@ -41,7 +42,7 @@ FlyBuy.orders.closed
 
 ```kotlin
 FlyBuy.orders.fetch(redemptionCode) { order, sdkError ->
-    // Update order claim view with order details here
+    // Check error response and update order claim view with order details here
 }
 ```
 
@@ -61,13 +62,23 @@ val closedOrders = FlyBuy.orders.closedLiveData
 To claim an order for the current customer, the app should call the `claim` method.
 
 ```kotlin
+// Create the customer info object for person picking up (name is required)
 val customerInfo = CustomerInfo (
     name = "Marty McFly",
     carType = "DeLorean",
     carColor = "Silver",
-    licensePlate = "OUTATIME"
+    licensePlate = "OUTATIME",
+    phone = "555-555-5555"
 )
 FlyBuy.orders.claim(redemptionCode, customerInfo) { order, sdkError ->
+    // If sdkError == null, order has been claimed
+}
+```
+
+Optionally, the pickup type can be set when claiming an order. This is only necessary for apps that do not set the pickup type via backend integrations when the order is created. Supported pickup types currently include `"curbside"`, `"pickup"`, and `"delivery"`. Passing `null` will leave the `pickupType` unchanged.
+
+```kotlin
+FlyBuy.orders.claim(redemptionCode, customerInfo, pickupType) { order, sdkError ->
     // If sdkError == null, order has been claimed
 }
 ```
@@ -86,8 +97,8 @@ val customerInfo = CustomerInfo (
 )
 FlyBuy.orders.create(
             siteID = 1,
-            partnerIdentifier = "1234"
-            customerInfo,
+            partnerIdentifier = "1234",
+            customerInfo
         ) { order, sdkError ->
     // If sdkError == null, order has been created
 }
@@ -105,23 +116,7 @@ FlyBuy.orders.event(orderId, CustomerState.WAITING) { order, sdkError ->
 }
 ```
 
-#### Order Event Attributes
-
-| Attribute       | Description               |
-|-----------------|---------------------------|
-| `orderId`       | Order ID                  |
-| `customerState` | Customer state ENUM value |
-
-#### Customer State ENUM Values
-
-| Value         | Description                                                             |
-|---------------|-------------------------------------------------------------------------|
-| `CREATED`     | Order has been created                                                  |
-| `EN_ROUTE`    | Order tracking has started and the customer is on their way             |
-| `NEARBY`      | Customer is close to the site                                           |
-| `ARRIVED`     | Customer has arrived on site                                            |
-| `WAITING`     | Customer is in a pickup area or has manually indicated they are waiting |
-| `COMPLETED`   | Order is complete                                                       |
+Refer to [Customer State ENUM Values](data_models.md#customer-state-enum-values) for possible `customerState` values.
 
 ### Update order state
 
@@ -131,20 +126,15 @@ FlyBuy.orders.event(orderId, OrderState.CANCELLED) { order, sdkError ->
 }
 ```
 
-#### Order Event Attributes
+Refer to [Order State ENUM Values](data_models.md#order-state-enum-values) for possible `state` values.
 
-| Attribute       | Description               |
-|-----------------|---------------------------|
-| `orderId`       | Order ID                  |
-| `state`         | Order state ENUM value    |
+## <span id="rate-orders">Customer Ratings</span>
 
-#### Order State ENUM Values
+If you collect customer ratings in your app, you can pass them to FlyBuy. The `rating` should be an integer and `comments` (optional) should be a string:
 
-| Value         | Description                                                             |
-|---------------|-------------------------------------------------------------------------|
-| `CREATED`     | Order has been created                                                  |
-| `READY`       | Order is ready for customer to claim                                    |
-| `DELAYED`     | Order has been delayed by merchant after customer arrives               |
-| `CANCELLED`   | Merchant has cancelled order                                            |
-| `COMPLETED`   | Order is complete                                                       |
-| `GONE`        | Returned by API when order does not exist                               |
+```kotlin
+FlyBuy.orders.rateOrder(orderId = 123, rating = 5, comments = 'Great service') { order, sdkError ->
+    // If sdkError == null, rating was successfully submitted
+}
+```
+

@@ -10,15 +10,20 @@ fun createCustomer() {
                            name = "Marty McFly",
                            carType = "DeLorean",
                            carColor = "Silver",
-                           licensePlate = "OUTATIME"
+                           licensePlate = "OUTATIME",
+                           phone = "555-555-5555"
                            )
     
-    FlyBuy.customer.create(customerInfo, termOfService = true,
-            ageVerification = true) { customer, sdkError ->
+    FlyBuy.customer.create(customerInfo, termOfService = userAcceptedTerms,
+            ageVerification = userVerifiedAge) { customer, sdkError ->
         // Handle customer or deal with error
     }
 }
 ```
+
+_Note: The `phone` parameter is optional_
+
+**IMPORTANT:** If the `termsOfService` and `ageVerification` parameters are not `true`, an error will be returned and the customer will not be created.
 
 ## Create a Customer with Login
 
@@ -30,11 +35,12 @@ fun createCustomerWithLogin() {
                             name = "Marty McFly",
                             carType = "DeLorean",
                             carColor = "Silver",
-                            licensePlate = "OUTATIME"
+                            licensePlate = "OUTATIME",
+                            phone = "555-555-5555"
                             )
     
     FlyBuy.customer.createWithLogin(customerInfo, email = "test@example.com", password = "passwordk",
-            termsOfService = true, ageVerification = true) { customer , sdkError ->
+            termsOfService = termsAccepted, ageVerification = ageVerified) { customer , sdkError ->
         // Handle customer or deal with error
     }
 }
