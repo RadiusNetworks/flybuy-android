@@ -15,13 +15,14 @@ More information can be found about:
 - [Orders](doc/orders.md)
 - [Notifications](doc/notifications.md)
 - [App Links](doc/app_links.md)
+- [Data Models](doc/data_models.md)
 
 
 ## Issues
 
 For general service questions and help consult the Radius Networks [support knowledge base][2].
 
-If you've found a problem in this library, perform a search under [Issues][3] in case it has already been reported. If you do not find any issue addressing it, feel free to [open a new one][3].
+If you've found a problem in this library, perform a search under [Issues][3] in case it has already been reported. If you do not find any issue addressing it, feel free to [open a new one][5].
 
 Your issue report should contain a title and a clear description of the issue
 at a minimum. Please provide as much relevant information as possible to
@@ -35,6 +36,7 @@ terms](https://github.com/RadiusNetworks/flybuy-android/blob/master/LICENSE) and
 
 [1]: https://www.radiusnetworks.com/
 [2]: https://radiusnetworks.zendesk.com/
-[3]: https://github.com/RadiusNetworks/flybuy-android/issues/new
+[3]: https://github.com/RadiusNetworks/flybuy-android/issues
 [4]: https://www.radiusnetworks.com/terms-of-service
+[5]: https://github.com/RadiusNetworks/flybuy-android/issues/new
 
