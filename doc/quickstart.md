@@ -142,7 +142,7 @@ FlyBuy uses mobile sensor data to identify the location of a customer.  The FlyB
 
 If you are targeting API 23 or higher, the app must request the permission at runtime.
 
-Refer to [https://developer.android.com/training/permissions/requesting] on the Android Developer site for details on requesting permissions and best practices. The suggested rationale for the permission is "To accurately locate you for order delivery"
+Refer to [https://developer.android.com/training/permissions/requesting](https://developer.android.com/training/permissions/requesting) on the Android Developer site for details on requesting permissions and best practices. The suggested rationale for the permission is "To accurately locate you for order delivery"
 
 
 **IMPORTANT:** Whenever, the location permission changes (accepted or declined), make sure to call:
@@ -155,11 +155,10 @@ This ensures that the FlyBuy SDK is aware of the permission change so the user l
 
 #### Android 10 (API 29 and higher)
 
-As of Android 10 (API 29), location permissions have changed to allow
-users to select "when in use" as an option. If your app targets and API 
-before API 29, then some additional work is needed for your app to
-compile properly. Once you target API 29 or higher, this code needs to
-be removed.
+As of Android 10 (API 29), location permissions have changed to allow users to select "when in use" as an option. If your app does not need location permissions for other purposes, you only need to ask for "when in use".
+
+#### Android 9 and lower (API 28 and lower)
+If your app targets and API before API 29, then some additional work is needed for your app to compile properly. Once you target API 29 or higher, this code needs to be removed.
 
 In your `AndroidManifest.xml`, add the following service:
 
@@ -174,9 +173,13 @@ In your `AndroidManifest.xml`, add the following service:
             android:value="@integer/google_play_services_version" />
     </service>
 ```
+Also, if you are using proguard, add the following line to your proguard settings:
 
-Note: If this code is not removed when targeting API 29 or higher, your
-app will throw the following exception:
+```
+-dontwarn com.radiusnetworks.flybuy.sdk.service.LocationService
+```
+
+Note: If this code is not removed when targeting API 29 or higher, your app will throw the following exception:
 
 ```
 java.lang.RuntimeException: Unable to start service com.radiusnetworks.flybuy.sdk.service.LocationService ...
