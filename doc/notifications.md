@@ -80,3 +80,15 @@ The service icon and push notification icon can also be updated from the default
 @drawable/ic_stat_location_service
 @drawable/ic_stat_default
 ```
+
+## Opening an Order upon Tapping a Notification
+
+When the app is open upon tapping one of the order status notifications, an intent will be sent that contains the data from the push messages. In particular, one or more of the following data will be included in the intent extras.
+
+| Intent Extra Key  | Description |
+|---|---|
+| `message_source` | Will be set to `flybuy` if the notification came from FlyBuy
+| `order_id` | The `orderId` to look up the order in `FlyBuy.orders.all`. Note this is not the redemption code |
+| `order_state` | The `state` of the order
+| `customer_state` | The `customerState` for the order
+| `eta_at` | The estimate time of arrival for the customer
