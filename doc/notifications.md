@@ -92,3 +92,54 @@ When the app is open upon tapping one of the order status notifications, an inte
 | `order_state` | The `state` of the order
 | `customer_state` | The `customerState` for the order
 | `eta_at` | The estimate time of arrival for the customer
+
+## OneSignal integration
+
+If your app uses OneSignal to send and receive push notifications, you will need to add the following code in your `Application` to receive the notification payload and send to the FlyBuy SDK:
+
+**Note:** If you are using OneSignal and Firebase, do not send the Firebase token to the FlyBuy SDK as described above.
+
+```kotlin
+class MyApplication : FlyBuyApplication() {
+
+    override fun onCreate() {
+        // FlyBuy initialization here...
+        FlyBuy.configure(this, "app-authorization-token")
+    
+        // OneSignal user listener
+        OneSignal.addSubscriptionObserver {
+            OSSubscriptionObserver { stateChanges ->
+                stateChanges?.to?.userId?.let {
+                    FlyBuy.onNewPushToken(it)
+                }
+            }
+        }
+
+        // OneSignal Initialization
+        OneSignal.startInit(this)
+            .inFocusDisplaying(OneSignal.OSInFocusDisplayOption.Notification)
+            .setNotificationReceivedHandler { notification ->
+                notification?.payload?.additionalData?.let { data ->
+                        // convert additional data to Map<String, String> (e.g. using gson)
+                        val type = object : TypeToken<Map<String?, String?>?>() {}.type
+                        val dataMap: Map<String, String> = Gson().fromJson(
+                                data.toString(), type)
+                        FlyBuy.onMessageReceived(dataMap, null)
+                }
+
+            }
+            .unsubscribeWhenNotificationsAreDisabled(false)
+            .init()
+    }
+}
+```
+
+In your main activity, add the following:
+```kotlin
+class MainActivity : Activity() {
+    override fun onCreate() {
+        OneSignal.getPermissionSubscriptionState().subscriptionStatus.userId?.let {
+            FlyBuy.onNewPushToken(it)
+        }
+    }
+}
