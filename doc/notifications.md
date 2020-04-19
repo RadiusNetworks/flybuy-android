@@ -93,6 +93,8 @@ When the app is open upon tapping one of the order status notifications, an inte
 | `customer_state` | The `customerState` for the order
 | `eta_at` | The estimate time of arrival for the customer
 
+
+
 ## OneSignal integration
 
 If your app uses OneSignal to send and receive push notifications, you will need to add the following code in your `Application` to receive the notification payload and send to the FlyBuy SDK:
