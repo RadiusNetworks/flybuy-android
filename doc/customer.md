@@ -14,7 +14,7 @@ fun createCustomer() {
                            phone = "555-555-5555"
                            )
     
-    FlyBuy.customer.create(customerInfo, termOfService = userAcceptedTerms,
+    FlyBuy.customer.create(customerInfo, termsOfService = userAcceptedTerms,
             ageVerification = userVerifiedAge) { customer, sdkError ->
         // Handle customer or deal with error
     }
