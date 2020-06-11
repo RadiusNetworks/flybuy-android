@@ -52,7 +52,7 @@ private fun updatePushToken() {
 
             // Get new Instance ID token
             task.result?.token?.let {
-                FlyBuy.getInstance(this).onNewPushToken(it)
+                FlyBuy.onNewPushToken(it)
             }
 
         })
