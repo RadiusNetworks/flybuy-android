@@ -12,7 +12,9 @@ Examples are in Kotlin. Refer to [Data Models](data_models.md) for details on cl
   - [Update order state](#update-order-state)
 - [Customer Ratings](#customer-ratings)
 
-Fetch the latest claimed orders with the server. An order is claimed if it is associated with the current customer.
+## <span id="fetch-claimed-orders">Fetch Claimed Orders</span>
+
+Fetch syncs the SDK with the FlyBuy backend to ensure the state changes match between the systems. Call `fetch` optionally when showing a list of orders in the app.
 
 ```kotlin
 FlyBuy.orders.fetch { orders, sdkError ->
@@ -38,7 +40,7 @@ Return the cached list of closed orders for the current user.
 FlyBuy.orders.closed
 ```
 
-## <span id="fetch-unclaimed-orders">Fetch Unclaimed Orders</span>
+## <span id="fetch-unclaimed-orders">Fetch Orders with Redemption Code</span>
 
 ```kotlin
 FlyBuy.orders.fetch(redemptionCode) { order, sdkError ->
@@ -55,6 +57,12 @@ If you are using Android Jetpack, you can observe orders using `LiveData` stream
 ```kotlin
 val openOrders = FlyBuy.orders.openLiveData
 val closedOrders = FlyBuy.orders.closedLiveData
+```
+
+You can also observe just the current order.
+
+```kotlin
+LiveData<Order> =  FlyBuy.orders.getOrder(orderId)
 ```
 
 ## <span id="claim-orders">Claim Orders</span>
@@ -75,7 +83,8 @@ FlyBuy.orders.claim(redemptionCode, customerInfo) { order, sdkError ->
 }
 ```
 
-Optionally, the pickup type can be set when claiming an order. This is only necessary for apps that do not set the pickup type via backend integrations when the order is created. Supported pickup types currently include `"curbside"`, `"pickup"`, and `"delivery"`. Passing `null` will leave the `pickupType` unchanged.
+Optionally, the pickup type can be set when claiming an order. This is only necessary for apps that do not set the pickup type via backend integrations. Refer to [Pickup Types](data_models.md#pickup-type) for possible values.
+
 
 ```kotlin
 FlyBuy.orders.claim(redemptionCode, customerInfo, pickupType) { order, sdkError ->
@@ -87,6 +96,7 @@ FlyBuy.orders.claim(redemptionCode, customerInfo, pickupType) { order, sdkError 
 
 To create an order for the current customer, the app should call the `create` method. 
 
+*NOTE: `pickupWindow`, `orderState`, and `pickupType` are optional fields that are not necessary for all integrations.*
 ```kotlin
 val customerInfo = CustomerInfo (
     name = "Marty McFly",
@@ -98,11 +108,16 @@ val customerInfo = CustomerInfo (
 FlyBuy.orders.create(
             siteID = 1,
             partnerIdentifier = "1234",
-            customerInfo
+            customerInfo,
+            pickupWindow,
+            orderState,
+            pickupType
         ) { order, sdkError ->
     // If sdkError == null, order has been created
 }
 ```
+
+Optionally, the `pickupWindow`, `orderState`, and  `pickupType` can be set when creating an order if these are not created via a backend integration. Refer to [Data Models](data_models.md) for possible values.
 
 ## <span id="update-orders">Update Orders</span>
 
