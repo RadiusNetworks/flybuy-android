@@ -130,6 +130,18 @@ class PickupWindow {
 }
 ```
 
+### Pickup Type
+
+Pickup type is a string that can be provided while claiming or creating an order. Current accepted values are
+
+| Value       | Description                                                             |
+|-------------|-------------------------------------------------------------------------|
+| `curbside`  | Order to be carried out the customer curbside                           |
+| `pickup`    | Order will be picked up by the customer                                 |
+| `delivery`  | Reserved for delivery service providers                                 |
+
+
+
 ## Errors
 
 If there is an error for any SDK method, the callback will return a `SdkError` object. 

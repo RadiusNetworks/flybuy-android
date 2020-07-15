@@ -148,9 +148,21 @@ To override the default values, set the following strings in the app's string re
     <string name="notif_flybuy_order_in_progress_content">We\'ll let the merchant know when you arrive.</string>
 ```
 
-The service icon and push notification icon can also be updated from the default FlyBuy icon by overriding these two files respectively:
+The service icon and push notification icon can also be updated from the default FlyBuy icon by overriding two drawables. Use File->New->Image Asset and select Notification Icons from the dropdown to override `ic_stat_default` (for push notifications) and `ic_stat_location_service` (for service notification). The `res` file structure will look like this:
 
-```
-@drawable/ic_stat_location_service
-@drawable/ic_stat_default
-```
+- res
+  - drawable-anydpi-v24
+    - ic_stat_default.xml
+    - ic_stat_location_service.xml
+  - drawable-mdpi
+    - ic_stat_default.png
+    - ic_stat_location_service.png
+  - drawable-hdpi
+    - ic_stat_default.png
+    - ic_stat_location_service.png
+  - drawable-xhdpi
+    - ic_stat_default.png
+    - ic_stat_location_service.png
+  - drawable-xxhdpi
+    - ic_stat_default.png
+    - ic_stat_location_service.png
