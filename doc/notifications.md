@@ -166,3 +166,10 @@ The service icon and push notification icon can also be updated from the default
   - drawable-xxhdpi
     - ic_stat_default.png
     - ic_stat_location_service.png
+
+To override the color of the notification icon, set the following colors in the app's color resources.
+
+```
+    <color name="ic_stat_default">#003662</color>
+    <color name="ic_stat_location_service">#003662</color>
+```
