@@ -30,5 +30,5 @@ terms](https://github.com/RadiusNetworks/flybuy-android/blob/master/LICENSE) and
 [3]: https://github.com/RadiusNetworks/flybuy-android/issues
 [4]: https://www.radiusnetworks.com/terms-of-service
 [5]: https://github.com/RadiusNetworks/flybuy-android/issues/new
-[6]: https://github.com/RadiusNetworks/flybuy-documentation
+[6]: https://www.radiusnetworks.com/developers/flybuy/
 
