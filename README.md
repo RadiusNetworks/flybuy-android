@@ -7,16 +7,7 @@ Networks][1] enables developers to add FlyBuy functionality directly into their 
 
 ## Getting Started
 
-See the [quick start guide](doc/quickstart.md) for details.
-
-More information can be found about:
-
-- [Customers](doc/customer.md)
-- [Orders](doc/orders.md)
-- [Notifications](doc/notifications.md)
-- [App Links](doc/app_links.md)
-- [Data Models](doc/data_models.md)
-
+Refer to the Quick Start guide in the [FlyBuy Documentation][6] to get started. The Android SDK is available via Bintray (Maven) or you may download the [aar files](/aar) and include in your project.
 
 ## Issues
 
@@ -39,4 +30,5 @@ terms](https://github.com/RadiusNetworks/flybuy-android/blob/master/LICENSE) and
 [3]: https://github.com/RadiusNetworks/flybuy-android/issues
 [4]: https://www.radiusnetworks.com/terms-of-service
 [5]: https://github.com/RadiusNetworks/flybuy-android/issues/new
+[6]: https://github.com/RadiusNetworks/flybuy-documentation
 
