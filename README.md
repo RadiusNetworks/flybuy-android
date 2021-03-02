@@ -1,4 +1,4 @@
-[ ![Download](https://api.bintray.com/packages/radiusnetworks/flybuy-sdk/com.radiusnetworks.flybuy/images/download.svg) ](https://bintray.com/radiusnetworks/flybuy-sdk/com.radiusnetworks.flybuy/_latestVersion)
+![Maven Central](https://img.shields.io/maven-central/v/com.radiusnetworks.flybuy/core)
 
 ![FlyBuy SDK for Android](readme.png)
 
