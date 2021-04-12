@@ -7,7 +7,7 @@ Networks][1] enables developers to add FlyBuy functionality directly into their 
 
 ## Getting Started
 
-Refer to the Integration Guide in the [FlyBuy Documentation][6] to get started. The Android SDK is available via Bintray (Maven) or you may download the [aar files](/aar) and include in your project.
+Refer to the Integration Guide in the [FlyBuy Documentation][6] to get started. The Android SDK is available via Maven or you may download the [aar files](/aar) and include in your project.
 
 ## Issues
 
