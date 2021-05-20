@@ -1,13 +1,18 @@
 ![Maven Central](https://img.shields.io/maven-central/v/com.radiusnetworks.flybuy/core)
 
-![FlyBuy SDK for Android](readme.png)
+<div>
+    <img src="readme.svg" style="vertical-align: middle;" width="150px"/>
+    <span style="vertical-align: middle;font-size:32px;">Android SDK</span>
+</div>
 
-The FlyBuy cloud service and mobile SDK from [Radius
-Networks][1] enables developers to add FlyBuy functionality directly into their app for a full white label implementation of the service.
+# 
+
+The Flybuy cloud service and mobile SDK from [Radius
+Networks][1] enables developers to add Flybuy functionality directly into their app for a full white label implementation of the service.
 
 ## Getting Started
 
-Refer to the Integration Guide in the [FlyBuy Documentation][6] to get started. The Android SDK is available via Maven or you may download the [aar files](/aar) and include in your project.
+Refer to the Integration Guide in the [Flybuy Documentation][6] to get started. The Android SDK is available via Maven or you may download the [aar files](/aar) and include in your project.
 
 ## Issues
 
